@@ -3,16 +3,36 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ClockIcon, BuildingOfficeIcon, BookmarkIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { ClockIcon, BuildingOfficeIcon, BookmarkIcon, ArrowRightIcon, BellIcon, TrashIcon } from '@heroicons/react/24/outline';
+
+interface SubscriptionItem {
+  id: string;
+  serviceName: string;
+  clinicName: string;
+  date: string;
+}
 
 export function History() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'recent' | 'bookmarks'>('recent');
+  const [activeTab, setActiveTab] = useState<'recent' | 'bookmarks' | 'subscriptions'>('recent');
   const [isLoading, setIsLoading] = useState(true);
+  const [subscriptions, setSubscriptions] = useState<SubscriptionItem[]>([]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 500);
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      if (activeTab === 'subscriptions') {
+        const savedIds = JSON.parse(localStorage.getItem('price_subscriptions') || '[]');
+        const subDetails = JSON.parse(localStorage.getItem('price_sub_details') || '{}');
+        const list = savedIds.map((id: string) => {
+          const detail = subDetails[id] || { serviceName: 'Услуга', clinicName: 'Клиника', date: new Date().toLocaleDateString() };
+          return { id, ...detail };
+        });
+        setSubscriptions(list);
+      }
+      setIsLoading(false);
+    }, 400);
     return () => clearTimeout(timer);
   }, [activeTab]);
 
@@ -53,22 +73,30 @@ export function History() {
         <p className="text-muted-foreground">{t('history.subtitle', 'Недавно просмотренные услуги и сохраненные клиники')}</p>
       </div>
 
-      <div className="flex space-x-1 p-1 bg-muted/50 rounded-lg max-w-sm border border-border">
+      <div className="flex space-x-1 p-1 bg-muted/50 rounded-lg max-w-md border border-border">
         <button
           onClick={() => setActiveTab('recent')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-            activeTab === 'recent' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all text-foreground ${
+            activeTab === 'recent' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
           {t('history.recent', 'Недавно просмотренные')}
         </button>
         <button
           onClick={() => setActiveTab('bookmarks')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-            activeTab === 'bookmarks' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all text-foreground ${
+            activeTab === 'bookmarks' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
           {t('history.bookmarks', 'Закладки')}
+        </button>
+        <button
+          onClick={() => setActiveTab('subscriptions')}
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all text-foreground ${
+            activeTab === 'subscriptions' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {t('history.subscriptions', 'Подписки')}
         </button>
       </div>
 
@@ -108,7 +136,7 @@ export function History() {
               </Card>
             ))}
           </div>
-        ) : (
+        ) : activeTab === 'bookmarks' ? (
           <div className="space-y-4">
             {bookmarks.map((item) => (
               <Card key={item.id} className="border-border shadow-sm hover:shadow-md transition-shadow group">
@@ -136,6 +164,49 @@ export function History() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {subscriptions.length === 0 ? (
+              <Card className="border-border border-dashed py-12 flex flex-col items-center justify-center text-muted-foreground bg-card/50">
+                <BellIcon className="w-10 h-10 opacity-20 mb-3" />
+                <p className="text-sm font-medium">У вас пока нет активных подписок.</p>
+                <p className="text-xs opacity-75 mt-0.5">Нажмите на 🔔 в поиске, чтобы отслеживать цены.</p>
+              </Card>
+            ) : (
+              subscriptions.map((item) => (
+                <Card key={item.id} className="border-border shadow-sm hover:shadow-md transition-shadow group bg-card">
+                  <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                        <BellIcon className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground text-left">{item.serviceName}</h3>
+                        <p className="text-sm text-muted-foreground flex flex-wrap items-center gap-2 mt-1">
+                          <span>{item.clinicName}</span>
+                          <span className="w-1 h-1 rounded-full bg-border"></span>
+                          <span>Подписка создана: {item.date}</span>
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <button 
+                      onClick={() => {
+                        const savedIds = JSON.parse(localStorage.getItem('price_subscriptions') || '[]');
+                        const updated = savedIds.filter((id: string) => id !== item.id);
+                        localStorage.setItem('price_subscriptions', JSON.stringify(updated));
+                        setSubscriptions(prev => prev.filter(p => p.id !== item.id));
+                      }}
+                      className="flex items-center justify-center px-4 py-2 border border-border text-red-500 hover:bg-red-50/50 text-sm font-medium rounded-md transition-colors bg-background shrink-0"
+                    >
+                      <TrashIcon className="w-4 h-4 mr-2" />
+                      Отписаться
+                    </button>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         )}
       </div>

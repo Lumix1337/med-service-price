@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   HomeIcon,
@@ -9,7 +9,8 @@ import {
   ClockIcon,
   ChartBarIcon,
   Cog6ToothIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  InboxIcon
 } from '@heroicons/react/24/outline'
 import { useAuth } from '@/context/AuthContext'
 
@@ -26,16 +27,15 @@ export function Sidebar() {
     { nameKey: 'nav.priceComparison', href: '/compare', icon: CurrencyDollarIcon },
     { nameKey: 'nav.history', href: '/history', icon: ClockIcon },
     { nameKey: 'nav.statistics', href: '/statistics', icon: ChartBarIcon },
+    { nameKey: 'nav.moderator', href: '/moderator', icon: InboxIcon },
   ] as const
 
   return (
     <aside className="w-64 bg-card flex flex-col h-full border-r border-border">
-      <div className="p-6 flex items-center space-x-3">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-sm">
-          <span className="text-primary-foreground font-bold text-xl leading-none">M</span>
-        </div>
+      <Link to="/" className="p-6 flex items-center space-x-3 hover:opacity-80 transition-opacity">
+        <img src="/logo.png" alt="MedPrice.kz" className="w-8 h-8 object-contain rounded-md" />
         <span className="font-bold text-foreground text-lg tracking-tight">MedPrice.kz</span>
-      </div>
+      </Link>
       
       <nav className="flex-1 px-4 space-y-1 overflow-y-auto mt-2">
         <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2">
@@ -58,24 +58,26 @@ export function Sidebar() {
           </NavLink>
         ))}
         
-        <div className="mt-8 pt-4">
-          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2">
-            {t('nav.system')}
+        {user && (
+          <div className="mt-8 pt-4">
+            <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4 px-2">
+              {t('nav.system')}
+            </div>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                `flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
+                  isActive
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`
+              }
+            >
+              <Cog6ToothIcon className="mr-3 h-5 w-5 shrink-0" aria-hidden="true" />
+              {t('nav.settings')}
+            </NavLink>
           </div>
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              `flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
-                isActive
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`
-            }
-          >
-            <Cog6ToothIcon className="mr-3 h-5 w-5 shrink-0" aria-hidden="true" />
-            {t('nav.settings')}
-          </NavLink>
-        </div>
+        )}
       </nav>
       
       <div className="p-4 border-t border-border m-4 rounded-xl bg-background border flex-shrink-0">

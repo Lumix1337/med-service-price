@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { MagnifyingGlassIcon, MapPinIcon, BuildingOfficeIcon } from '@heroicons/react/24/outline';
+import { ClinicsMap } from '@/components/ClinicsMap';
 
 export function Clinics() {
   const { t } = useTranslation();
@@ -27,6 +28,8 @@ export function Clinics() {
         <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('clinicsList.title')}</h1>
         <p className="text-muted-foreground">{t('clinicsList.subtitle')}</p>
       </div>
+
+      <ClinicsMap />
 
       <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
         <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
