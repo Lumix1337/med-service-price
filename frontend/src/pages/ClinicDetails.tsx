@@ -16,8 +16,8 @@ export function ClinicDetails() {
 
   if (isLoading) {
     return (
-      <div className="p-8 space-y-8 animate-in fade-in duration-500">
-        <div className="flex flex-col md:flex-row gap-8 items-start">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500">
+        <div className="flex flex-col md:flex-row gap-6 sm:gap-8 items-start">
           <Skeleton className="w-32 h-32 rounded-2xl shrink-0" />
           <div className="flex-1 space-y-4 w-full">
             <div className="flex items-center space-x-3">
@@ -68,23 +68,23 @@ export function ClinicDetails() {
 
   if (!clinic) {
     return (
-      <div className="p-8 text-center text-muted-foreground">
+      <div className="p-4 sm:p-6 lg:p-8 text-center text-muted-foreground">
         Clinic not found.
       </div>
     );
   }
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row gap-8 items-start">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row gap-6 sm:gap-8 items-start">
         {/* Clinic Logo Placeholder */}
-        <div className="w-32 h-32 rounded-2xl bg-card border border-border shadow-sm flex flex-col items-center justify-center shrink-0">
-          <span className="text-4xl font-bold text-primary">{clinic.name.substring(0, 3)}</span>
+        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl bg-card border border-border shadow-sm flex flex-col items-center justify-center shrink-0">
+          <span className="text-3xl sm:text-4xl font-bold text-primary">{clinic.name.substring(0, 3)}</span>
         </div>
         
-        <div className="flex-1 space-y-4">
-          <div className="flex items-center space-x-3">
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground">{clinic.name}</h1>
+        <div className="flex-1 space-y-4 min-w-0">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{clinic.name}</h1>
             {clinic.verified && (
               <Badge variant="outline" className="bg-primary/5 border-primary/20 text-primary">{t('clinic.verified')}</Badge>
             )}
@@ -122,14 +122,14 @@ export function ClinicDetails() {
       </div>
 
       <Card className="border-border shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-border bg-card/50 pb-4">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border bg-card/50 pb-4">
           <CardTitle className="text-lg font-medium">{t('clinic.servicesProvided')}</CardTitle>
-          <div className="text-sm text-muted-foreground flex items-center">
+          <div className="text-xs sm:text-sm text-muted-foreground flex items-center">
             <ArrowPathIcon className="w-4 h-4 mr-1.5" />
             {t('clinic.pricesParsedOn', { date: clinic.lastUpdate })}
           </div>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50 hover:bg-transparent">

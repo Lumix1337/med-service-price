@@ -26,10 +26,10 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
+    <div className="min-h-[100dvh] bg-background flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6 lg:px-8 relative">
       <button 
         onClick={() => navigate(-1)}
-        className="absolute top-8 left-8 flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+        className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeftIcon className="w-4 h-4 mr-2" />
         {t('auth.back', 'Назад')}
@@ -39,7 +39,7 @@ export function Login() {
         <div className="w-12 h-12 mx-auto rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
           <span className="text-primary-foreground font-bold text-2xl leading-none">M</span>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold tracking-tight text-foreground">
+        <h2 className="mt-6 text-center text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
           {t('auth.loginTitle', 'Вход в аккаунт')}
         </h2>
         <p className="mt-2 text-center text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ export function Login() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex items-center">
                 <input
                   id="remember-me"

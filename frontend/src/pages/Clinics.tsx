@@ -23,15 +23,15 @@ export function Clinics() {
   };
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in duration-500">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('clinicsList.title')}</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{t('clinicsList.title')}</h1>
         <p className="text-muted-foreground">{t('clinicsList.subtitle')}</p>
       </div>
 
       <ClinicsMap />
 
-      <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
+      <div className="bg-card border border-border rounded-xl p-4 sm:p-6 shadow-sm">
         <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />

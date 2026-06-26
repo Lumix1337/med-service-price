@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { 
@@ -6,7 +7,9 @@ import {
   ArrowTrendingDownIcon, 
   MagnifyingGlassIcon,
   ShieldCheckIcon,
-  ChatBubbleLeftRightIcon
+  ChatBubbleLeftRightIcon,
+  Bars3Icon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 
 const REVIEWS = [
@@ -80,15 +83,18 @@ const FAQS = [
 
 export function Landing() {
   const { user } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans select-none overflow-x-hidden">
       {/* Landing Navbar */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <img src="/logo.png" alt="MedPrice.kz" className="w-9 h-9 object-contain rounded-md" />
-            <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <img src="/logo.png" alt="MedPrice.kz" className="w-8 h-8 sm:w-9 sm:h-9 object-contain rounded-md shrink-0" />
+            <span className="font-bold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text truncate">
               MedPrice<span className="text-primary">.kz</span>
             </span>
           </div>
@@ -100,41 +106,78 @@ export function Landing() {
             <a href="#faq" className="hover:text-primary transition-colors">Вопросы</a>
           </nav>
 
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <Link 
-                to="/dashboard" 
-                className="px-5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-xl transition-all shadow-sm shadow-primary/10 flex items-center space-x-2"
-              >
-                <span>Личный кабинет</span>
-                <span>→</span>
-              </Link>
-            ) : (
-              <>
+          <div className="flex items-center space-x-2 sm:space-x-4 shrink-0">
+            <div className="hidden sm:flex items-center space-x-4">
+              {user ? (
                 <Link 
-                  to="/login" 
-                  className="text-sm font-medium hover:text-primary transition-colors px-3 py-2 text-foreground"
+                  to="/dashboard" 
+                  className="px-5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-xl transition-all shadow-sm shadow-primary/10 flex items-center space-x-2"
                 >
-                  Войти
+                  <span>Личный кабинет</span>
+                  <span>→</span>
                 </Link>
-                <Link 
-                  to="/register" 
-                  className="px-5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-xl transition-all shadow-sm shadow-primary/10"
-                >
-                  Зарегистрироваться
-                </Link>
-              </>
-            )}
+              ) : (
+                <>
+                  <Link 
+                    to="/login" 
+                    className="text-sm font-medium hover:text-primary transition-colors px-3 py-2 text-foreground"
+                  >
+                    Войти
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="px-5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-xl transition-all shadow-sm shadow-primary/10"
+                  >
+                    Зарегистрироваться
+                  </Link>
+                </>
+              )}
+            </div>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {mobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+            </button>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md animate-in slide-in-from-top-2 duration-200">
+            <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col space-y-1">
+              <a href="#about" onClick={closeMobileMenu} className="px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted rounded-lg transition-colors">О сервисе</a>
+              <a href="#features" onClick={closeMobileMenu} className="px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted rounded-lg transition-colors">Преимущества</a>
+              <a href="#reviews" onClick={closeMobileMenu} className="px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted rounded-lg transition-colors">Отзывы</a>
+              <a href="#faq" onClick={closeMobileMenu} className="px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted rounded-lg transition-colors">Вопросы</a>
+              <div className="pt-3 mt-2 border-t border-border flex flex-col gap-2">
+                {user ? (
+                  <Link to="/dashboard" onClick={closeMobileMenu} className="w-full text-center px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-xl">
+                    Личный кабинет
+                  </Link>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={closeMobileMenu} className="w-full text-center px-5 py-2.5 border border-border text-sm font-medium rounded-xl">
+                      Войти
+                    </Link>
+                    <Link to="/register" onClick={closeMobileMenu} className="w-full text-center px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-xl">
+                      Зарегистрироваться
+                    </Link>
+                  </>
+                )}
+              </div>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Hero Section */}
-      <section id="about" className="relative pt-20 pb-24 lg:pt-32 lg:pb-36 bg-gradient-to-b from-primary/5 via-transparent to-transparent overflow-hidden">
+      <section id="about" className="relative pt-12 sm:pt-20 pb-16 sm:pb-24 lg:pt-32 lg:pb-36 bg-gradient-to-b from-primary/5 via-transparent to-transparent overflow-hidden">
         {/* Decorative background glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10" />
         
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center space-y-6 sm:space-y-8">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary uppercase tracking-wide">
             <ShieldCheckIcon className="w-4 h-4" />
             <span>Умный мониторинг цен</span>
@@ -164,7 +207,7 @@ export function Landing() {
           </div>
 
           {/* Interactive Preview Dashboard Widget */}
-          <div className="w-full max-w-4xl mt-12 border border-border rounded-2xl bg-card shadow-2xl p-6 relative overflow-hidden group">
+          <div className="w-full max-w-4xl mt-8 sm:mt-12 border border-border rounded-2xl bg-card shadow-2xl p-4 sm:p-6 relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
             
             <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
@@ -198,8 +241,8 @@ export function Landing() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 bg-card border-y border-border relative">
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
+      <section id="features" className="py-12 sm:py-24 bg-card border-y border-border relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10 sm:space-y-16">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight text-foreground">Почему выбирают MedPrice</h2>
             <p className="text-muted-foreground">Современный и быстрый агрегатор для осознанного управления расходами на здоровье.</p>
@@ -207,7 +250,7 @@ export function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {FEATURES.map(f => (
-              <div key={f.name} className="p-8 rounded-2xl border border-border bg-background hover:border-primary/30 hover:shadow-md transition-all flex space-x-6">
+              <div key={f.name} className="p-5 sm:p-8 rounded-2xl border border-border bg-background hover:border-primary/30 hover:shadow-md transition-all flex flex-col sm:flex-row sm:space-x-6 space-y-4 sm:space-y-0">
                 <div className={`w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-tr ${f.color} flex items-center justify-center text-white shadow-md`}>
                   <f.icon className="w-7 h-7" />
                 </div>
@@ -222,8 +265,8 @@ export function Landing() {
       </section>
 
       {/* Testimonials/Reviews Section */}
-      <section id="reviews" className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
+      <section id="reviews" className="py-12 sm:py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10 sm:space-y-16">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <div className="inline-flex items-center space-x-1.5 text-primary text-sm font-semibold uppercase tracking-wider">
               <ChatBubbleLeftRightIcon className="w-5 h-5" />
@@ -246,7 +289,7 @@ export function Landing() {
                     "{r.text}"
                   </p>
                 </div>
-                <div className="pt-4 border-t border-border flex items-center justify-between">
+                <div className="pt-4 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold">
                       {r.avatar}
@@ -267,8 +310,8 @@ export function Landing() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-24 bg-card border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
+      <section id="faq" className="py-12 sm:py-24 bg-card border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10 sm:space-y-16">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight text-foreground">Часто задаваемые вопросы</h2>
             <p className="text-muted-foreground">Ответы на популярные вопросы о работе агрегатора цен.</p>
@@ -286,8 +329,8 @@ export function Landing() {
       </section>
 
       {/* Call to action section */}
-      <section className="py-20 bg-gradient-to-r from-primary/10 to-orange-400/5 relative overflow-hidden border-t border-border">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-8 relative">
+      <section className="py-12 sm:py-20 bg-gradient-to-r from-primary/10 to-orange-400/5 relative overflow-hidden border-t border-border">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6 sm:space-y-8 relative">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
             Готовы сэкономить на медицинских услугах?
           </h2>
@@ -306,8 +349,8 @@ export function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-background border-t border-border py-12">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer className="bg-background border-t border-border py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-orange-400 flex items-center justify-center text-white font-bold text-sm shadow">
               M

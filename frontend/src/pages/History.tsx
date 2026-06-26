@@ -67,16 +67,16 @@ export function History() {
   );
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in duration-500 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500 max-w-5xl mx-auto">
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('history.title', 'История и закладки')}</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{t('history.title', 'История и закладки')}</h1>
         <p className="text-muted-foreground">{t('history.subtitle', 'Недавно просмотренные услуги и сохраненные клиники')}</p>
       </div>
 
-      <div className="flex space-x-1 p-1 bg-muted/50 rounded-lg max-w-md border border-border">
+      <div className="flex overflow-x-auto -mx-1 px-1 space-x-1 p-1 bg-muted/50 rounded-lg max-w-full border border-border">
         <button
           onClick={() => setActiveTab('recent')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all text-foreground ${
+          className={`flex-1 min-w-[100px] py-2 px-2 text-xs sm:text-sm font-medium rounded-md transition-all text-foreground whitespace-nowrap ${
             activeTab === 'recent' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
@@ -84,7 +84,7 @@ export function History() {
         </button>
         <button
           onClick={() => setActiveTab('bookmarks')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all text-foreground ${
+          className={`flex-1 min-w-[100px] py-2 px-2 text-xs sm:text-sm font-medium rounded-md transition-all text-foreground whitespace-nowrap ${
             activeTab === 'bookmarks' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
           }`}
         >
@@ -92,7 +92,7 @@ export function History() {
         </button>
         <button
           onClick={() => setActiveTab('subscriptions')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all text-foreground ${
+          className={`flex-1 min-w-[100px] py-2 px-2 text-xs sm:text-sm font-medium rounded-md transition-all text-foreground whitespace-nowrap ${
             activeTab === 'subscriptions' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
           }`}
         >

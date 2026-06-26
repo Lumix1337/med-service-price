@@ -93,10 +93,10 @@ export function Compare() {
   }, [comparisonData]);
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('compare.title', 'Сравнение цен')}</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{t('compare.title', 'Сравнение цен')}</h1>
           <p className="text-muted-foreground">{t('compare.subtitle', 'Сравните стоимость услуг в разных лабораториях и клиниках')}</p>
         </div>
 
@@ -237,7 +237,7 @@ export function Compare() {
               <CardHeader className="bg-card/50 border-b border-border py-4">
                 <CardTitle className="text-base font-medium">Сравнение стоимости предложений (₸)</CardTitle>
               </CardHeader>
-              <CardContent className="p-6 h-[300px]">
+              <CardContent className="p-4 sm:p-6 h-[240px] sm:h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />

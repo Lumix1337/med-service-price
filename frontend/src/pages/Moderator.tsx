@@ -79,10 +79,10 @@ export function Moderator() {
   };
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 bg-primary text-primary-foreground px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-bounce">
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-5 sm:max-w-sm z-50 bg-primary text-primary-foreground px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2">
           <CheckIcon className="w-5 h-5 shrink-0" />
           <span className="text-sm font-medium">{toastMessage}</span>
         </div>
@@ -90,7 +90,7 @@ export function Moderator() {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Панель модератора</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">Панель модератора</h1>
           <p className="text-muted-foreground">Очередь ручной разметки (Unmatched Queue) нераспознанных услуг для нормализации со справочником.</p>
         </div>
 

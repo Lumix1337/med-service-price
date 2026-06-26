@@ -27,6 +27,7 @@ export function Search() {
     return saved ? JSON.parse(saved) : [];
   });
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const navigate = useNavigate();
 
   const { data: results, isLoading } = useSearch(query, filters);
@@ -116,16 +117,25 @@ export function Search() {
     <div className="flex flex-col lg:flex-row h-full animate-in fade-in duration-500 relative">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 bg-primary text-primary-foreground px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-bounce">
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-5 sm:max-w-sm z-50 bg-primary text-primary-foreground px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2">
           <CheckIcon className="w-5 h-5 shrink-0" />
           <span className="text-sm font-medium">{toastMessage}</span>
         </div>
       )}
       {/* Filters Sidebar */}
-      <div className="w-full lg:w-72 bg-card border-r border-border p-6 flex flex-col space-y-6 overflow-y-auto shrink-0">
-        <div className="flex items-center space-x-2 text-foreground font-semibold">
-          <AdjustmentsHorizontalIcon className="w-5 h-5 text-primary" />
-          <span>{t('search.filters')}</span>
+      <div className={`w-full lg:w-72 bg-card border-b lg:border-b-0 lg:border-r border-border shrink-0 ${filtersOpen ? 'block' : 'hidden lg:block'}`}>
+        <div className="p-4 sm:p-6 flex flex-col space-y-6 overflow-y-auto max-h-[70vh] lg:max-h-none">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-foreground font-semibold">
+            <AdjustmentsHorizontalIcon className="w-5 h-5 text-primary" />
+            <span>{t('search.filters')}</span>
+          </div>
+          <button
+            onClick={() => setFiltersOpen(false)}
+            className="lg:hidden text-xs font-medium text-muted-foreground hover:text-foreground px-2 py-1 rounded-md hover:bg-muted transition-colors"
+          >
+            Скрыть
+          </button>
         </div>
         
         <div className="space-y-6">
@@ -217,23 +227,32 @@ export function Search() {
             </select>
           </div>
         </div>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 lg:p-10 flex flex-col space-y-6 overflow-y-auto bg-background">
-        <div className="max-w-4xl w-full mx-auto">
-          <form onSubmit={handleSearch} className="relative shadow-sm group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+      <div className="flex-1 p-4 sm:p-6 lg:p-10 flex flex-col space-y-4 sm:space-y-6 overflow-y-auto bg-background min-w-0">
+        <div className="max-w-4xl w-full mx-auto space-y-3">
+          <button
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            className="lg:hidden flex items-center gap-2 px-4 py-2.5 border border-border rounded-lg bg-card text-sm font-medium text-foreground hover:bg-muted transition-colors w-full sm:w-auto"
+          >
+            <AdjustmentsHorizontalIcon className="w-4 h-4 text-primary" />
+            {filtersOpen ? 'Скрыть фильтры' : t('search.filters')}
+          </button>
+
+          <form onSubmit={handleSearch} className="relative shadow-sm group flex flex-col sm:block">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none sm:block hidden">
               <MagnifyingGlassIcon className="h-6 w-6 text-muted-foreground group-focus-within:text-primary transition-colors" />
             </div>
             <Input 
               type="text" 
-              className="w-full pl-12 pr-24 py-7 text-lg rounded-xl border-border bg-card shadow-sm focus-visible:ring-primary transition-all text-foreground" 
+              className="w-full pl-4 sm:pl-12 pr-4 sm:pr-24 py-5 sm:py-7 text-base sm:text-lg rounded-xl border-border bg-card shadow-sm focus-visible:ring-primary transition-all text-foreground" 
               placeholder={t('search.placeholder')}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
-            <Button type="submit" className="absolute right-2 top-2 bottom-2 rounded-lg px-8 text-md font-medium">
+            <Button type="submit" className="mt-2 sm:mt-0 w-full sm:w-auto sm:absolute sm:right-2 sm:top-2 sm:bottom-2 rounded-lg px-8 text-md font-medium">
               {t('search.searchButton')}
             </Button>
           </form>
@@ -257,7 +276,7 @@ export function Search() {
         <div className="max-w-4xl w-full mx-auto mt-8">
           <Card className="border-border shadow-sm bg-card">
             <CardHeader className="border-b border-border bg-card/50 pb-4">
-              <CardTitle className="text-lg font-medium flex justify-between items-center">
+              <CardTitle className="text-base sm:text-lg font-medium flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                 <span>{t('search.results')}</span>
                 <div className="flex items-center space-x-2">
                   {filteredResults.length > 0 && (
@@ -282,10 +301,10 @@ export function Search() {
                   <TableHeader>
                     <TableRow className="hover:bg-transparent bg-muted/50">
                       <TableHead className="w-[300px]">{t('search.serviceName')}</TableHead>
-                      <TableHead>{t('search.clinic')}</TableHead>
-                      <TableHead>{t('search.location')}</TableHead>
+                      <TableHead className="hidden md:table-cell">{t('search.clinic')}</TableHead>
+                      <TableHead className="hidden sm:table-cell">{t('search.location')}</TableHead>
                       <TableHead className="text-right">{t('search.price')}</TableHead>
-                      <TableHead className="text-right">{t('search.lastUpdated')}</TableHead>
+                      <TableHead className="text-right hidden lg:table-cell">{t('search.lastUpdated')}</TableHead>
                       <TableHead></TableHead>
                     </TableRow>
                   </TableHeader>
@@ -316,7 +335,7 @@ export function Search() {
                         <TableRow key={res.id} className="group">
                           <TableCell className="font-medium text-foreground">
                             <div className="flex items-center space-x-2">
-                              <span>{res.serviceName}</span>
+                              <span className="line-clamp-2">{res.serviceName}</span>
                               <button 
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -332,10 +351,11 @@ export function Search() {
                                 )}
                               </button>
                             </div>
-                            <div className="text-xs text-muted-foreground mt-1 hidden lg:block">{res.category}</div>
+                            <div className="text-xs text-muted-foreground mt-1">{res.category}</div>
+                            <div className="text-xs text-muted-foreground mt-1 md:hidden">{res.clinicName}</div>
                           </TableCell>
-                          <TableCell className="text-muted-foreground">{res.clinicName}</TableCell>
-                          <TableCell>
+                          <TableCell className="text-muted-foreground hidden md:table-cell">{res.clinicName}</TableCell>
+                          <TableCell className="hidden sm:table-cell">
                             <div className="flex flex-col space-y-1">
                               <Badge variant="outline" className="font-normal bg-background text-foreground w-max">{res.city}</Badge>
                               <a 
@@ -351,14 +371,14 @@ export function Search() {
                           <TableCell className="text-right font-semibold tabular-nums text-primary">
                             {res.price.toLocaleString(locale)} ₸
                           </TableCell>
-                          <TableCell className="text-muted-foreground text-sm text-right">
+                          <TableCell className="text-muted-foreground text-sm text-right hidden lg:table-cell">
                             {new Date(res.updatedAt).toLocaleDateString(locale)}
                           </TableCell>
                           <TableCell className="text-right">
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="opacity-0 group-hover:opacity-100 border-border hover:border-primary hover:text-primary transition-all bg-background"
+                              className="sm:opacity-0 sm:group-hover:opacity-100 border-border hover:border-primary hover:text-primary transition-all bg-background"
                               onClick={() => navigate(`/services`)}
                             >
                               {t('search.details')}

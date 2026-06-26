@@ -19,7 +19,7 @@ export function ServiceDetails() {
 
   if (isLoading) {
     return (
-      <div className="p-8 space-y-8 animate-in fade-in duration-500">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500">
         <div>
           <div className="flex items-center space-x-3 mb-2">
             <Skeleton className="h-6 w-24 rounded-full" />
@@ -105,7 +105,7 @@ export function ServiceDetails() {
 
   if (!service) {
     return (
-      <div className="p-8 text-center text-muted-foreground">
+      <div className="p-4 sm:p-6 lg:p-8 text-center text-muted-foreground">
         Service not found.
       </div>
     );
@@ -118,7 +118,7 @@ export function ServiceDetails() {
           <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-none">{service.category}</Badge>
           <span className="text-sm text-muted-foreground">ID: {service.id}</span>
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{service.canonicalName}</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{service.canonicalName}</h1>
         <p className="mt-4 text-muted-foreground max-w-3xl leading-relaxed">{service.description}</p>
         
         <div className="mt-6">
@@ -191,13 +191,13 @@ export function ServiceDetails() {
         <CardHeader>
           <CardTitle className="text-lg font-medium">{t('service.compareAll')}</CardTitle>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50 hover:bg-muted/50">
                 <TableHead>{t('service.clinicName')}</TableHead>
-                <TableHead>{t('service.city')}</TableHead>
-                <TableHead>{t('service.address')}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t('service.city')}</TableHead>
+                <TableHead className="hidden md:table-cell">{t('service.address')}</TableHead>
                 <TableHead className="text-right">{t('service.priceKzt')}</TableHead>
                 <TableHead className="text-right">{t('service.lastParsed')}</TableHead>
               </TableRow>
@@ -207,9 +207,10 @@ export function ServiceDetails() {
                 <TableRow key={i}>
                   <TableCell className="font-medium">{cp.clinic}</TableCell>
                   <TableCell>
-                     <Badge variant="outline" className="font-normal bg-background text-xs">{cp.city}</Badge>
+                     <Badge variant="outline" className="font-normal bg-background text-xs hidden sm:inline-flex">{cp.city}</Badge>
+                     <span className="sm:hidden text-xs text-muted-foreground">{cp.city}</span>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{cp.address}</TableCell>
+                  <TableCell className="text-muted-foreground hidden md:table-cell">{cp.address}</TableCell>
                   <TableCell className="text-right font-semibold text-foreground tabular-nums">{cp.price.toLocaleString(locale)}</TableCell>
                   <TableCell className="text-right text-sm text-muted-foreground">{cp.date}</TableCell>
                 </TableRow>

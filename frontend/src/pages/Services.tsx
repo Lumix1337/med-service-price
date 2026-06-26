@@ -54,10 +54,10 @@ export function Services() {
   ];
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('services.title', 'Каталог услуг')}</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{t('services.title', 'Каталог услуг')}</h1>
           <p className="mt-2 text-muted-foreground">{t('services.subtitle', 'Выберите категорию или воспользуйтесь поиском')}</p>
         </div>
         <div className="relative w-full md:w-80">

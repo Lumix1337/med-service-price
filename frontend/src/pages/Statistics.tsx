@@ -83,10 +83,10 @@ export function Statistics() {
   const COLORS = ['#FF4F00', '#FF7A33', '#FFA566', '#FFD099'];
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('statistics.title', 'Рыночная статистика')}</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{t('statistics.title', 'Рыночная статистика')}</h1>
           <p className="text-muted-foreground">{t('statistics.subtitle', 'Аналитика цен и долей рынка медицинских услуг')}</p>
         </div>
 
@@ -129,7 +129,7 @@ export function Statistics() {
               <CardTitle className="text-lg font-medium">{t('statistics.avgPriceByCity', 'Средние цены по городам (₸)')}</CardTitle>
             </div>
           </CardHeader>
-          <CardContent className="p-6 h-[400px]">
+          <CardContent className="p-4 sm:p-6 h-[280px] sm:h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={statisticalData.barData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />

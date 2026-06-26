@@ -67,9 +67,9 @@ export function ClinicsMap() {
     : CLINIC_PINS.filter(pin => pin.city === activeCity);
 
   return (
-    <div className="border border-border rounded-2xl bg-card overflow-hidden shadow-sm flex flex-col lg:flex-row h-[450px]">
+    <div className="border border-border rounded-2xl bg-card overflow-hidden shadow-sm flex flex-col lg:flex-row min-h-[320px] lg:h-[450px]">
       {/* Map area */}
-      <div className="flex-1 bg-slate-900 relative flex items-center justify-center p-6 border-b lg:border-b-0 lg:border-r border-border overflow-hidden">
+      <div className="flex-1 min-h-[220px] sm:min-h-[280px] lg:min-h-0 bg-slate-900 relative flex items-center justify-center p-4 sm:p-6 border-b lg:border-b-0 lg:border-r border-border overflow-hidden">
         {/* Kazakhstan SVG Vector Map mockup (Clean abstract geometry for high aesthetic value) */}
         <svg 
           viewBox="0 0 800 450" 
@@ -116,7 +116,7 @@ export function ClinicsMap() {
         </div>
 
         {/* Quick Zoom / Filter Buttons inside Map */}
-        <div className="absolute bottom-4 left-4 flex gap-1.5 bg-slate-950/80 border border-slate-800 p-1 rounded-xl">
+        <div className="absolute bottom-4 left-4 right-4 sm:right-auto flex flex-wrap gap-1.5 bg-slate-950/80 border border-slate-800 p-1 rounded-xl">
           {(['All', 'Astana', 'Almaty', 'Shymkent'] as const).map(city => (
             <button
               key={city}
@@ -137,7 +137,7 @@ export function ClinicsMap() {
       </div>
 
       {/* Details Side Panel */}
-      <div className="w-full lg:w-80 bg-card p-6 flex flex-col justify-between overflow-y-auto select-text">
+      <div className="w-full lg:w-80 bg-card p-4 sm:p-6 flex flex-col justify-between overflow-y-auto select-text min-h-[180px]">
         {selectedPin ? (
           <div className="space-y-6 flex-grow">
             <div className="space-y-3">

@@ -26,9 +26,9 @@ export function Settings() {
   };
 
   return (
-    <div className="p-8 space-y-8 animate-in fade-in duration-500 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 animate-in fade-in duration-500 max-w-4xl mx-auto">
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t('settings.title', 'Настройки')}</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">{t('settings.title', 'Настройки')}</h1>
         <p className="text-muted-foreground">{t('settings.subtitle', 'Управление профилем и предпочтениями приложения')}</p>
       </div>
 
