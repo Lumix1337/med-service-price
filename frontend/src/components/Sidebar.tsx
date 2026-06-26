@@ -27,8 +27,8 @@ export function Sidebar() {
     { nameKey: 'nav.priceComparison', href: '/compare', icon: CurrencyDollarIcon },
     { nameKey: 'nav.history', href: '/history', icon: ClockIcon },
     { nameKey: 'nav.statistics', href: '/statistics', icon: ChartBarIcon },
-    { nameKey: 'nav.moderator', href: '/moderator', icon: InboxIcon },
-  ] as const
+    ...(user?.role === 'admin' ? [{ nameKey: 'nav.moderator', href: '/moderator', icon: InboxIcon }] : []),
+  ]
 
   return (
     <aside className="w-64 bg-card flex flex-col h-full border-r border-border">

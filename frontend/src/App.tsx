@@ -45,6 +45,24 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
   return <>{children}</>;
 }
 
+function AdminRoute({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px] w-full">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  
+  if (!user || user.role !== 'admin') {
+    return <Navigate to="/" replace />;
+  }
+  
+  return <>{children}</>;
+}
+
 // Fallback component for Suspense
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen w-full bg-background">
@@ -73,7 +91,7 @@ function App() {
                 <Route path="history" element={<History />} />
                 <Route path="statistics" element={<Statistics />} />
                 <Route path="settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-                <Route path="moderator" element={<Moderator />} />
+                <Route path="moderator" element={<AdminRoute><Moderator /></AdminRoute>} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

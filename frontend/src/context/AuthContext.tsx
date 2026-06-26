@@ -8,6 +8,7 @@ type User = {
   email: string;
   avatar?: string;
   city?: string;
+  role?: 'admin' | 'user';
 };
 
 type AuthContextType = {
@@ -68,12 +69,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     if (isMock) {
       await new Promise(resolve => setTimeout(resolve, 800));
+      const isAdmin = email.toLowerCase() === 'admin@medprice.kz';
       const mockUser: User = {
         id: '1',
-        name: 'Test User',
+        name: isAdmin ? 'Администратор' : 'Test User',
         email: email,
-        avatar: 'T',
-        city: 'Астана'
+        avatar: isAdmin ? 'A' : 'T',
+        city: 'Астана',
+        role: isAdmin ? 'admin' : 'user'
       };
       setUser(mockUser);
       localStorage.setItem('medprice_user', JSON.stringify(mockUser));
@@ -96,7 +99,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: name,
         email: email,
         avatar: name.charAt(0).toUpperCase(),
-        city: city || 'Астана'
+        city: city || 'Астана',
+        role: 'user'
       };
       setUser(mockUser);
       localStorage.setItem('medprice_user', JSON.stringify(mockUser));
