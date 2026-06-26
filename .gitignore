@@ -33,3 +33,4 @@ pnpm-debug.log*
 # Temporary documents and prompt files
 *.docx
 *prompt.txt
+SKILL.md
