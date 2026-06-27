@@ -1,0 +1,36 @@
+# Dependency directories
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Package manager store
+.pnpm-store/
+
+# Local environment configuration
+.env
+.env.*
+!.env.example
+
+# Temporary documents and prompt files
+*.docx
+*prompt.txt
+SKILL.md
